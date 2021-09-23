@@ -1,0 +1,31 @@
+name: 'Upload Image'
+description: 'Uploade Docker image as an artifact'
+inputs:
+  key:
+    description: 'short image name without repo/owner and tag, e.g. platformstorageapi'
+    required: true
+  file:
+    description: 'Coverage file name'
+    required: false
+    default: './coverage.xml'
+  artifact:
+    description: 'The artifact name to store coverage chunk'
+    required: false
+    default: 'coverage'
+runs:
+  using: "composite"
+  steps:
+    - name: Calculate target file name
+      id: meta
+      run: echo "::set-output name=file::coverage-${{ inputs.key }}.xml"
+      shell: bash
+    - names: Rename file
+      run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
+      shell: bash
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ inputs.artifact }}
+        path: ${{ steps.meta.outputs.file }}
+        if-no-files-found: error
+        retention-days: 1
