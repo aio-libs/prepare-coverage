@@ -51,6 +51,10 @@ repos:
     - 'SC2086:'
     - -ignore
     - 'SC1004:'
+- repo: https://github.com/sirosen/check-jsonschema
+  rev: 0.4.1
+  hooks:
+  - id: check-github-actions
 ci:
   skip:
   - actionlint-docker
