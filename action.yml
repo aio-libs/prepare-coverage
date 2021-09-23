@@ -19,7 +19,7 @@ runs:
       id: meta
       run: echo "::set-output name=file::coverage-${{ inputs.key }}.xml"
       shell: bash
-    - names: Rename file
+    - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
       shell: bash
     - name: Upload coverage artifact
