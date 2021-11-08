@@ -2,7 +2,7 @@ name: 'Upload Image'
 description: 'Uploade Docker image as an artifact'
 inputs:
   key:
-    description: 'short image name without repo/owner and tag, e.g. platformstorageapi'
+    description: 'short image name without repo/owner and tag, e.g. aiohttp'
     required: true
   file:
     description: 'Coverage file name'
