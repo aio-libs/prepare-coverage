@@ -17,7 +17,7 @@ runs:
       run: |
         import secrets
         rnd = secrets.token_hex(16)
-        print(f"::set-output name=file::.coverage-{rnd}")
+        print(f"::set-output name=file::.coverage.{rnd}")
       shell: python
     - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
