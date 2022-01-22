@@ -1,13 +1,10 @@
 name: 'Upload Coverage'
 description: 'Uploade coverage file for later composing'
 inputs:
-  key:
-    description: 'key info for coverage file, e.g. py39-linux'
-    required: true
   file:
     description: 'Coverage file name'
     required: false
-    default: './coverage.xml'
+    default: '.coverage'
   artifact:
     description: 'The artifact name to store coverage chunk'
     required: false
@@ -17,8 +14,11 @@ runs:
   steps:
     - name: Calculate target file name
       id: meta
-      run: echo "::set-output name=file::coverage-${{ inputs.key }}.xml"
-      shell: bash
+      run: |
+        import secrets
+        rnd = secrets.token_hex(16)
+        print(f"::set-output name=file::.coverage-{rnd}")
+      shell: python
     - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
       shell: bash
