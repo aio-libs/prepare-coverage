@@ -1,8 +1,8 @@
-name: 'Upload Image'
-description: 'Uploade Docker image as an artifact'
+name: 'Upload Coverage'
+description: 'Uploade coverage file for later composing'
 inputs:
   key:
-    description: 'short image name without repo/owner and tag, e.g. aiohttp'
+    description: 'key info for coverage file, e.g. py39-linux'
     required: true
   file:
     description: 'Coverage file name'
