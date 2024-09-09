@@ -15,17 +15,19 @@ runs:
     - name: Calculate target file name
       id: meta
       run: |
-        import secrets
+        import os, secrets
         rnd = secrets.token_hex(16)
-        print(f"::set-output name=file::.coverage.{rnd}")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+          print(f"file=.coverage.{rnd}", file=f)
       shell: python
     - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
       shell: bash
     - name: Upload coverage artifact
-      uses: actions/upload-artifact@v2.2.4
+      uses: actions/upload-artifact@v4.4.0
       with:
         name: ${{ inputs.artifact }}
         path: ${{ steps.meta.outputs.file }}
         if-no-files-found: error
         retention-days: 1
+        include-hidden-files: true
