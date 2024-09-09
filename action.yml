@@ -12,13 +12,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Calculate target file name
+    - name: Calculate metadata
       id: meta
       run: |
         import os, secrets
         rnd = secrets.token_hex(16)
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
           print(f"file=.coverage.{rnd}", file=f)
+          art = os.environ["ARTIFACT"]
+          print(f"artifact={art}-{rnd}", file=f)
+      env:
+        artifact: ${{ inputs.artifact }}
       shell: python
     - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
@@ -26,7 +30,7 @@ runs:
     - name: Upload coverage artifact
       uses: actions/upload-artifact@v4.4.0
       with:
-        name: ${{ inputs.artifact }}
+        name: ${{ steps.meta.outputs.artifact }}
         path: ${{ steps.meta.outputs.file }}
         if-no-files-found: error
         retention-days: 1
