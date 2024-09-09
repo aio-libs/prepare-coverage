@@ -22,7 +22,7 @@ runs:
           art = os.environ["ARTIFACT"]
           print(f"artifact={art}-{rnd}", file=f)
       env:
-        artifact: ${{ inputs.artifact }}
+        ARTIFACT: ${{ inputs.artifact }}
       shell: python
     - name: Rename file
       run: mv ${{ inputs.file }} ${{ steps.meta.outputs.file }}
